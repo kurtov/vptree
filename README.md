@@ -1,5 +1,7 @@
 # Vptree
 
+[![Build Status](https://travis-ci.org/generall/vptree.svg)](https://travis-ci.org/generall/vptree)
+
 Implementation of VP-tree (https://en.wikipedia.org/wiki/Vantage-point_tree) for fast kNN search with any measure function.
 
 ## Installation
