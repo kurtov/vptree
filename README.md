@@ -1,8 +1,6 @@
 # Vptree
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/vptree`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+Implementation of VP-tree (https://en.wikipedia.org/wiki/Vantage-point_tree) for fast kNN search with any measure function.
 
 ## Installation
 
@@ -22,7 +20,20 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+
+Building tree:
+
+```ruby
+data = [[1,2], [2,1] , [2,2]]
+# any measure, satisfies the triangle inequality, is allowed
+# and may be passed as block
+tree = Vptree::VPTree.new(data) # data - array of vectors of objects with special mixin, see https://github.com/generall/Distance-Measures
+```
+Quering tree:
+
+```ruby
+nearest = tree.find_k_nearest([3,3], 1)
+```
 
 ## Development
 
@@ -32,7 +43,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/vptree. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](contributor-covenant.org) code of conduct.
+Bug reports and pull requests are welcome on GitHub at https://github.com/generall/vptree. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](contributor-covenant.org) code of conduct.
 
 
 ## License
