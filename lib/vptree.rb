@@ -53,7 +53,6 @@ module Vptree
       rescue
         return @is_block ? @distance_measure.call(obj1, obj2) : obj1.send(@distance_measure, obj2) # old fasion distance gem, for arrays only
       end
-
     end
 
     def separate()
@@ -98,7 +97,11 @@ module Vptree
     end
 
     def calc_dist(obj1, obj2)
-      @is_block ? obj1.calc_distance(obj2, &@distance_measure) : obj1.calc_distance(obj2, @distance_measure)
+      begin
+        return  @is_block ? obj1.calc_distance(obj2, &@distance_measure) : obj1.calc_distance(obj2, @distance_measure)
+      rescue
+        return @is_block ? @distance_measure.call(obj1, obj2) : obj1.send(@distance_measure, obj2) # old fasion distance gem, for arrays only
+      end
     end
 
 
