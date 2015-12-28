@@ -30,6 +30,16 @@ module Vptree
     end
   end
 
+  module CalcDistance
+    def calc_dist(obj1, obj2)
+      begin
+        return  @is_block ? obj1.calc_distance(obj2, &@distance_measure) : obj1.calc_distance(obj2, @distance_measure)
+      rescue
+        return @is_block ? @distance_measure.call(obj1, obj2) : obj1.send(@distance_measure, obj2) # old fasion distance gem, for arrays only
+      end
+    end
+  end
+
   class VPNode
     attr_accessor :is_block, :distance_measure, :data, :vp_point, :left_node, :right_node, :mu
 
@@ -47,13 +57,7 @@ module Vptree
       @distance_measure = other_node.distance_measure
     end
 
-    def calc_dist(obj1, obj2)
-      begin
-        return  @is_block ? obj1.calc_distance(obj2, &@distance_measure) : obj1.calc_distance(obj2, @distance_measure)
-      rescue
-        return @is_block ? @distance_measure.call(obj1, obj2) : obj1.send(@distance_measure, obj2) # old fasion distance gem, for arrays only
-      end
-    end
+    include CalcDistance
 
     def separate()
 
@@ -96,14 +100,7 @@ module Vptree
       @root = VPNode.new(data, options, &block)
     end
 
-    def calc_dist(obj1, obj2)
-      begin
-        return  @is_block ? obj1.calc_distance(obj2, &@distance_measure) : obj1.calc_distance(obj2, @distance_measure)
-      rescue
-        return @is_block ? @distance_measure.call(obj1, obj2) : obj1.send(@distance_measure, obj2) # old fasion distance gem, for arrays only
-      end
-    end
-
+    include CalcDistance
 
     def build_tree()
       @root.separate
