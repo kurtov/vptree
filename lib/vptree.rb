@@ -49,7 +49,7 @@ module Vptree
 
     def initialize(data, options = {}, &block)
       @data = data
-      @is_block = !block.nil?
+      @is_block = block_given?
       @distance_measure = block || options[:distance_measure] || :euclidean_distance
       @left_node = nil
       @right_node = nil
@@ -99,7 +99,7 @@ module Vptree
 
     def initialize(data, options = {}, &block)
       @data = data
-      @is_block = !block.nil?
+      @is_block = block_given?
       @distance_measure = block || options[:distance_measure] || :euclidean_distance
       @root = VPNode.new(data, options, &block)
     end
