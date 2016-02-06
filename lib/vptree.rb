@@ -1,5 +1,6 @@
 require 'vptree/version'
-require 'distance_measures'
+#require 'distance_measures'
+#require 'measurable'
 require 'algorithms'
 
 module Vptree
@@ -35,7 +36,7 @@ module Vptree
   # compatable with Distance-measure gem
   module CalcDistance
     def calc_dist(obj1, obj2)
-      return @is_block ? obj1.calc_distance(obj2, &@distance_measure) : obj1.calc_distance(obj2, @distance_measure)
+      return @is_block ? obj1.distance(obj2, &@distance_measure) : obj1.distance(obj2, @distance_measure)
     rescue
       # old fasion distance gem, for arrays only
       return @is_block ? @distance_measure.call(obj1, obj2) : obj1.send(@distance_measure, obj2)
@@ -125,7 +126,7 @@ module Vptree
         if d < tau
           # store node.vp_point as a neighbor if it's closer than any other point
           # seen so far
-          neighbors.push(node.vp_point, d)
+          neighbors.push([d, node.vp_point], d)
           # shrink tau
           tau = neighbors.max_priority
         end
@@ -142,9 +143,8 @@ module Vptree
         end
       end
 
-      return neighbors.dump
+      return neighbors.dump.reverse
     end
 
-    alias_method :find_k_nearest, :nearest_neighbours
   end
 end

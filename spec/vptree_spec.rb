@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'distance_measures'
 
 describe Vptree do
   it 'has a version number' do
@@ -14,7 +15,8 @@ describe "VPTree" do
       tree.build_tree
       # [6.7,3.1,4.4,1.4]  -  original
       nearest = tree.find_k_nearest([6.8,3.2,4.3,1.3], 2)
-      expect(nearest).to eq([[6.6, 3.0, 4.4, 1.4], [6.7, 3.1, 4.4, 1.4]])
+      expect(nearest[0][1]).to eq([6.7, 3.1, 4.4, 1.4])
+      expect(nearest[1][1]).to eq([6.6, 3.0, 4.4, 1.4])
     end
   end
 
