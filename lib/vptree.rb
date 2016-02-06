@@ -144,5 +144,7 @@ module Vptree
 
       return neighbors.dump
     end
+
+    alias_method :find_k_nearest, :nearest_neighbours
   end
 end
