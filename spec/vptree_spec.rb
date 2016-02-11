@@ -12,7 +12,7 @@ describe "VPTree" do
   describe "try separate" do
     it 'does something useful' do
       tree = Vptree::VPTree.new(data)
-      tree.build_tree
+      # tree.build_tree
       # [6.7,3.1,4.4,1.4]  -  original
       nearest = tree.find_k_nearest([6.8,3.2,4.3,1.3], 2)
       expect(nearest[0][1]).to eq([6.7, 3.1, 4.4, 1.4])

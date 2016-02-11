@@ -103,6 +103,7 @@ module Vptree
       @is_block = block_given?
       @distance_measure = block || options[:distance_measure] || :euclidean_distance
       @root = VPNode.new(data, options, &block)
+      build_tree
     end
 
     include CalcDistance
