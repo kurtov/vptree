@@ -92,6 +92,25 @@ module Vptree
       @left_node.separate if @left_node
       @data = nil
     end
+
+    def find_nearest_by_radius(obj, radius, result = Containers::PriorityQueue.new)
+      return result unless vp_point
+
+      dist_to_vp_point = calc_dist(vp_point, obj)
+
+      result.push([dist_to_vp_point, vp_point], dist_to_vp_point) if dist_to_vp_point <= radius
+
+      if (dist_to_vp_point + radius < mu)
+        right_node.find_nearest_by_radius(obj, radius, result) if right_node
+      elsif (dist_to_vp_point - radius >= mu) && left_node
+        left_node.find_nearest_by_radius(obj, radius, result) if left_node
+      else
+        left_node.find_nearest_by_radius(obj, radius, result) if left_node
+        right_node.find_nearest_by_radius(obj, radius, result) if right_node
+      end
+
+      return result
+    end
   end
 
   # Implementation of VP-tree
@@ -145,6 +164,11 @@ module Vptree
       end
 
       return neighbors.dump.reverse
+    end
+
+    def find_nearest_by_radius(obj, radius)
+      neighbors = root.find_nearest_by_radius(obj, radius)
+      neighbors.size.times.map{neighbors.pop}.reverse
     end
 
   end

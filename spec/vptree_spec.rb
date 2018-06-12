@@ -20,6 +20,42 @@ describe "VPTree" do
     end
   end
 
+  describe "#find_nearest_by_radius" do
+    it "returns empty when data empty" do
+      tree = Vptree::VPTree.new([])
+      nearest = tree.find_nearest_by_radius([0,1], 1.1)
+      expect(nearest.length).to eq(0)
+    end
+
+    context "VPTree contains one node" do
+      it "one data inside radius" do
+        tree = Vptree::VPTree.new([[0,0]])
+        nearest = tree.find_nearest_by_radius([0,1], 1.1)
+        expect(nearest.length).to eq(1)
+        expect(nearest[0][1]).to eq([0,0])
+      end
+
+      it "one data outside radius" do
+        tree = Vptree::VPTree.new([[0,3]])
+        nearest = tree.find_nearest_by_radius([0,1], 1.1)
+        expect(nearest.length).to eq(0)
+      end
+    end
+
+    it "find nearest inside radius" do
+      tree = Vptree::VPTree.new(data)
+      nearest = tree.find_nearest_by_radius([7.7, 2.6, 6.9, 2.3], 1)
+      expect(nearest[0][1]).to eq([7.7, 2.6, 6.9, 2.3])
+      expect(nearest[1][1]).to eq([7.7, 2.8, 6.7, 2.0])
+      expect(nearest[2][1]).to eq([7.6, 3.0, 6.6, 2.1])
+      expect(nearest[3][1]).to eq([7.7, 3.0, 6.1, 2.3])
+      expect(nearest[4][1]).to eq([7.3, 2.9, 6.3, 1.8])
+      expect(nearest[5][1]).to eq([7.4, 2.8, 6.1, 1.9])
+
+      expect(nearest.length).to eq(6)
+    end
+  end
+
   def data
     # Iris dataset
     [
